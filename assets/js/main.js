@@ -6,14 +6,16 @@ $(function () {
     $('#form').on("submit", function (e) {
         e.preventDefault();
 
-
+        $('.loading').addClass('show');
+        $('.loading .spinner').addClass('show');
         var fields = $(this).serializeArray();
-
         $.post($(this).attr('action'), fields, responseForm, 'json');
 
     });
 
     function responseForm(r) {
+        $('.loading').removeClass('show');
+        $('.loading .spinner').removeClass('show');
 
         if (!r.success) {
 

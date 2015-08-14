@@ -96,7 +96,7 @@ legend {
     padding: .8rem;
 }
 
-.content-error {
+.loading,.content-error {
     background: rgba(243, 243, 243, 0.8);
     display: none;
     height: 100%;
@@ -148,7 +148,9 @@ input[type='file'] {
     height: 100%;
     cursor: pointer;
 }
-
+select{
+    height: 30px;
+}
 .content-p {
     margin: 10px 0;
 }
@@ -273,3 +275,4 @@ li {
     border: 2px dashed gray;
     background: #FFFFFF;
 }
+

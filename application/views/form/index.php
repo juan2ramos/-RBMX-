@@ -106,4 +106,5 @@
             <ul class="content-p"></ul>
         </div>
     </aside>
+    <aside class="loading"><div class="spinner"></div> </aside>
 </main>

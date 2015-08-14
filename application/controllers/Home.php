@@ -42,6 +42,7 @@ class Home extends CI_Controller
         $team = [
             'name_team' => $post['team'],
             'city' => $post['city'],
+            'url_image' => $post['url_image'],
         ];
         $idTeam = $this->team_model->addTeam($team);
         $user1 = [
@@ -75,6 +76,7 @@ class Home extends CI_Controller
             $config = [
                 ['field' => 'team', 'label' => 'team', 'rules' => 'required'],
                 ['field' => 'city', 'label' => 'city', 'rules' => 'required'],
+                ['field' => 'url_image', 'label' => 'url_image', 'rules' => 'required'],
 
                 ['field' => 'name-user', 'label' => 'name-user', 'rules' => 'required'],
                 ['field' => 'last-name', 'label' => 'last-name', 'rules' => 'required'],
@@ -94,10 +96,13 @@ class Home extends CI_Controller
 
             ];
 
+            $this->form_validation->set_message('required', 'El campo  %s es obligatorio');
+
+
             $this->form_validation->set_rules($config);
 
             if (!$this->form_validation->run()) {
-                $this->messageError = validation_errors();
+                $this->messageError = validation_errors('<li>', '</li>');
                 return false;
             } else {
                 return true;

@@ -24,24 +24,32 @@ class Home extends CI_Controller
     {
         $this->load->model('users_model');
         $this->load->model('team_model');
-
-        if ($this->validate()) {
+        $val = $this->validate();
+        if ($val) {
 
             $this->insertForm($this->input->post());
             echo json_encode(['success' => true]);
 
         } else {
-            echo json_encode(['success' => false,'errors' => $this->messageError]);
+            if($val){
+                echo json_encode(['success' => true]);
+
+            }else{
+                echo json_encode(['success' => false,'errors' => $this->messageError]);
+            }
+
+
         }
 
     }
 
     private function insertForm($post)
     {
-        print_r($post['team']);
+
         $team = [
             'name_team' => $post['team'],
             'city' => $post['city'],
+            'url_image' => $post['url_image'],
         ];
         $idTeam = $this->team_model->addTeam($team);
         $user1 = [
@@ -75,6 +83,7 @@ class Home extends CI_Controller
             $config = [
                 ['field' => 'team', 'label' => 'team', 'rules' => 'required'],
                 ['field' => 'city', 'label' => 'city', 'rules' => 'required'],
+                ['field' => 'url_image', 'label' => 'url_image', 'rules' => 'required'],
 
                 ['field' => 'name-user', 'label' => 'name-user', 'rules' => 'required'],
                 ['field' => 'last-name', 'label' => 'last-name', 'rules' => 'required'],
@@ -94,10 +103,15 @@ class Home extends CI_Controller
 
             ];
 
+            $this->form_validation->set_message('required', '%s');
+            $this->form_validation->set_message('valid_email', '%s');
+
+
             $this->form_validation->set_rules($config);
 
             if (!$this->form_validation->run()) {
-                $this->messageError = validation_errors();
+
+                $this->messageError = validation_errors(' ', '**');
                 return false;
             } else {
                 return true;

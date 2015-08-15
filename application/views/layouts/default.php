@@ -19,7 +19,7 @@
     <?php echo link_tag('assets/css/style.css'); ?>
 
 </head>
-<body>
+<body data-url="<?php base_url()?>">
 <figure class="logo">
     <?php echo img(['src' => 'assets/images/logo.png']) ?>
 </figure>

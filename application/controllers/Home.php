@@ -24,21 +24,28 @@ class Home extends CI_Controller
     {
         $this->load->model('users_model');
         $this->load->model('team_model');
-
-        if ($this->validate()) {
+        $val = $this->validate();
+        if ($val) {
 
             $this->insertForm($this->input->post());
             echo json_encode(['success' => true]);
 
         } else {
-            echo json_encode(['success' => false,'errors' => $this->messageError]);
+            if($val){
+                echo json_encode(['success' => true]);
+
+            }else{
+                echo json_encode(['success' => false,'errors' => $this->messageError]);
+            }
+
+
         }
 
     }
 
     private function insertForm($post)
     {
-        print_r($post['team']);
+
         $team = [
             'name_team' => $post['team'],
             'city' => $post['city'],
@@ -96,13 +103,15 @@ class Home extends CI_Controller
 
             ];
 
-            $this->form_validation->set_message('required', 'El campo  %s es obligatorio');
+            $this->form_validation->set_message('required', '%s');
+            $this->form_validation->set_message('valid_email', '%s');
 
 
             $this->form_validation->set_rules($config);
 
             if (!$this->form_validation->run()) {
-                $this->messageError = validation_errors('<li>', '</li>');
+
+                $this->messageError = validation_errors(' ', '**');
                 return false;
             } else {
                 return true;
